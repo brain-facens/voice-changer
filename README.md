@@ -10,5 +10,5 @@ Change your voice for any purpose.
 conda create -n voice python==3.12
 cd voice-changer
 pip install -r requirements.txt
-python src/app/main.py
+fastapi dev src/app/main.py
 ```
