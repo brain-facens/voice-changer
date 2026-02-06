@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from elevenlabs.client import ElevenLabs
 from elevenlabs import save
+from elevenlabs.play import play
 
 
 load_dotenv()
@@ -23,7 +24,7 @@ def voice_changer(
                 model_id="eleven_multilingual_sts_v2",
                 output_format="mp3_44100_128",
             )
-
+            # play(audio_stream)
             out_file_path = os.path.join(OUTPUT_DIR, "out.wav")
             save(audio_stream, out_file_path)
 
