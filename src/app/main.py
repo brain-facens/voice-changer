@@ -6,10 +6,9 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
 from services.voice_changer import voice_changer
 from models.menu import menu_choices
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
-
-app = FastAPI()
 
 UPLOAD_DIR = os.getenv("INPUT_FILES_PATH")
 OUTPUT_DIR = os.getenv("OUTPUT_FILES_PATH")
@@ -21,6 +20,24 @@ WOMAN = os.getenv("WOMAN_ID")
 
 os.makedirs(UPLOAD_DIR, exist_ok = True)
 os.makedirs(OUTPUT_DIR, exist_ok = True)
+
+app = FastAPI()
+
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=False,  # deixe False se não usa cookies/sessão
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/")
 async def root():
