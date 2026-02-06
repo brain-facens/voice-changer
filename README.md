@@ -5,7 +5,6 @@
     <img width="100%" src="assets/image/README/1770386467622.png" alt="API Enpoint"></a>
   </p>
 </div>
-![1770386467622](image/README/1770386467622.png)
 
 Change your voice for any purpose.
 
