@@ -1,10 +1,10 @@
 import os
 import shutil
 from dotenv import load_dotenv
-from typing import Annotated, Optional
+from typing import Annotated, Union
 from fastapi import FastAPI, File, UploadFile
 from services.voice_changer import voice_changer
-from models.MenuChoices import MenuChoices
+from models.menu import menu_choices
 
 load_dotenv()
 
@@ -28,12 +28,13 @@ async def root():
 @app.post("/v1/voice_changer/services/voice_change")
 async def change_voice(
     file: Annotated[UploadFile, File(description = "A file read as UploadFile")],
-    menu_item: Optional[MenuChoices] = None
+    menu_item: Union[menu_choices] 
 ):
     """Change your voice for any purpose. 
 
     Args:
-        file (must be an audio file) - audio to voice change. Defaults to "A file read as UploadFile")].
+        file (must be an audio file) - audio to voice change.
+        menu_item - voice options
 
     Returns:
         Dict - metadata
@@ -44,16 +45,14 @@ async def change_voice(
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        if menu_item == MenuChoices.girl:
+        if menu_item == menu_choices.girl:
             voice = GIRL
-        elif menu_item == MenuChoices.boy:
+        elif menu_item == menu_choices.boy:
             voice = BOY
-        elif menu_item == MenuChoices.woman:
+        elif menu_item == menu_choices.woman:
             voice = WOMAN
-        elif menu_item == MenuChoices.man:
+        elif menu_item == menu_choices.man:
             voice = MAN
-        else:
-            return {"message": f"Must be selected: Girl, Boy, Woman or Man."}
         
         voice_changed = voice_changer(
             voice_id = voice,

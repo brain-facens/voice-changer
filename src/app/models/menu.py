@@ -1,6 +1,6 @@
 from enum import Enum
 
-class MenuChoices(str, Enum):
+class menu_choices(str, Enum):
     girl = "Girl"
     boy = "Boy"
     woman = "Woman"
