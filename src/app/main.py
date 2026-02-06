@@ -3,6 +3,7 @@ import shutil
 from dotenv import load_dotenv
 from typing import Annotated, Union
 from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import FileResponse
 from services.voice_changer import voice_changer
 from models.menu import menu_choices
 
@@ -64,4 +65,18 @@ async def change_voice(
     finally:
         await file.close()
     
-    return {"filename_uploaded": file.filename, "content_type": file.content_type, "message": "File uploaded successfully", "output": voice_changed}
+    return {
+        "filename_uploaded": file.filename, 
+        "content_type": file.content_type, 
+        "message": "File uploaded successfully", 
+        "output": voice_changed
+    }
+
+@app.get("/v1/voice_changer/services/get_audio_response", response_class = FileResponse)
+async def get_audio():
+    try:
+        audio = os.getenv("AUDIO_RESPONSE")
+        return audio
+    except Exception as e:
+        return {"message": f"An error occurred: {e}"}
+    
