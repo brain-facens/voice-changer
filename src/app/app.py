@@ -1,12 +1,16 @@
 import os
+import sys
 import shutil
 from dotenv import load_dotenv
 from typing import Annotated, Union
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
-from services.voice_changer import voice_changer
-from models.menu import menu_choices
 from fastapi.middleware.cors import CORSMiddleware
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from models.menu import menu_choices
+from services.voice_changer import voice_changer
 
 load_dotenv()
 
