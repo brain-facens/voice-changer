@@ -32,7 +32,7 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-assets/
+results/
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -127,7 +127,7 @@ ipython_config.py
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
-
+results/
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
