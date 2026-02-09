@@ -28,6 +28,7 @@ os.makedirs(OUTPUT_DIR, exist_ok = True)
 app = FastAPI()
 
 origins = [
+    "https://brain-voice-changer-studio.vercel.app/",
     "*"
 ]
 
