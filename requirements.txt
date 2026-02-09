@@ -2,3 +2,4 @@ elevenlabs
 python-dotenv
 soundfile
 fastapi[standard]
+uvicorn
