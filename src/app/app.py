@@ -3,12 +3,12 @@ import shutil
 from dotenv import load_dotenv
 from typing import Annotated, Union
 from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import FileResponse
 from services.voice_changer import voice_changer
 from models.menu import menu_choices
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
-
-app = FastAPI()
 
 UPLOAD_DIR = os.getenv("INPUT_FILES_PATH")
 OUTPUT_DIR = os.getenv("OUTPUT_FILES_PATH")
@@ -20,6 +20,22 @@ WOMAN = os.getenv("WOMAN_ID")
 
 os.makedirs(UPLOAD_DIR, exist_ok = True)
 os.makedirs(OUTPUT_DIR, exist_ok = True)
+
+app = FastAPI()
+
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=False,  # deixe False se não usa cookies/sessão
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 @app.get("/")
 async def root():
@@ -64,4 +80,18 @@ async def change_voice(
     finally:
         await file.close()
     
-    return {"filename_uploaded": file.filename, "content_type": file.content_type, "message": "File uploaded successfully", "output": voice_changed}
+    return {
+        "filename_uploaded": file.filename, 
+        "content_type": file.content_type, 
+        "message": "File uploaded successfully", 
+        "output": voice_changed
+    }
+
+@app.get("/v1/voice_changer/services/get_audio_response", response_class = FileResponse)
+async def get_audio():
+    try:
+        audio = os.getenv("AUDIO_RESPONSE")
+        return audio
+    except Exception as e:
+        return {"message": f"An error occurred: {e}"}
+    
