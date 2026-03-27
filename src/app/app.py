@@ -29,6 +29,7 @@ app = FastAPI()
 
 origins = [
     "https://brain-voice-changer-studio.vercel.app/",
+    "http://localhost:8000/",
     "*"
 ]
 
